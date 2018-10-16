@@ -1,8 +1,7 @@
-$(function() {
+$(function(){
 	var model = {
 		init: function(){
-			if (!cats){
-				cats = [
+			cats = [
 				{
 					name: "Sam",
 					countClicks: 0,
@@ -28,32 +27,43 @@ $(function() {
 					countClicks: 0,
 					url: "../images/cat_5.jpg"
 				}
-				];
-			};
+				]
 		},
 
-		increment: function(){};
+		get_all_cats: function(){
+			return cats;
+		}
 
 
 	};
 
-	var Controller = {
+	var controller = {
 		init: function(){
 			model.init();
-			view.init();
+			view_list.init();
 		},
 
-		detect: function(){};
+		get_cats: function(){
+			return model.get_all_cats();
+		}
 	};
 
 	var view_list = {
-		init: function(){};
+		init: function(){
+			Html = '';
+			controller.get_cats().forEach(function(cat){
+				Html += '<li class="cat">' + cat.name + '</li>';
+				$(".cat-list").html(Html);
+			})
+		}
 	};
 
 	var view_cat = {
-		init: function(){};
-	}
-})
+		init: function(){}
+	};
+
+	controller.init();
+});
 
 
 // var hidden = function() {

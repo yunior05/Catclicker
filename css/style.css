@@ -1,3 +1,14 @@
+ul {
+    font-family: Arial, Verdana;
+    font-size: 14px;
+    list-style: none;
+}
+ul li {
+    display: inline-block;
+    float: left;
+    text-decoration: none;
+    padding-top: 5px;
+}
 .hidden {
 	display: none;
 }
