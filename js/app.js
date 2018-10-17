@@ -1,8 +1,10 @@
+
 $(function(){
 	var model = {
 		init: function(){
 			//Create array "cats" with five objects of cats
-			cats = [
+			"use strict";
+			this.cats = [
 				{
 					name: "Sam",
 					countClicks: 0,
@@ -32,7 +34,7 @@ $(function(){
 		},
 		//return cats array
 		get_all_cats: function(){
-			return cats;
+			return this.cats;
 		}
 	};
 
@@ -49,24 +51,24 @@ $(function(){
 
 	var view_list = {
 		init: function(){
-			catlist = $(".cat-list");
+			this.catlist = $(".cat-list");
 			view_list.render();
 			
 		},
 
 		render: function(){
 			//Add to ul. cat-list all li elment 
-			Html = '';
+			this.Html = '';
 			controller.get_cats().forEach(function(cat){
-				Html += '<li class="cat"><a href="#">' + cat.name + '</a></li>';
-				catlist.html(Html);
+				this.Html += '<li class="cat"><a href="#">' + cat.name + '</a></li>';
+				view_list.catlist.html(this.Html);
 			})
-			list = $(".cat");
+			this.list = $(".cat");
 			//When click in li element, call view_cat
-			for (var i = 0; i <= list.length; i++) {
-				list[i].addEventListener("click", (function(id){
+			for (var i = 0; i <= this.list.length; i++) {
+				this.list[i].addEventListener("click", (function(id){
 					return function(){
-					view_cat.init(id, controller.get_cats());
+					view_cat.init(controller.get_cats()[id]);
 					}
 				})(i));
 			};
@@ -74,20 +76,21 @@ $(function(){
 	};
 
 	var view_cat = {
-		init: function(id, cats){
-			currentCat = id;
-			box = $(".cat-container");
+		init: function(cat){
+			this.box = $(".cat-container");
+			this.cat = cat
 			view_cat.render()
+			
 		},
 		render: function(){
 			//add to div.cat-container the image, name and count of clicks, for this cats
-			Html = '';
-			Html += '<span class="name">' + cats[currentCat].name + 
-			'</span>'+'<img class="cat-image" src="'+cats[currentCat].url+'"><br>'+cats[currentCat].countClicks + ' clicks';
-			box.html(Html);
+			this.Html = '';
+			this.Html += '<span class="name">' + this.cat.name + 
+			'</span>'+'<img class="cat-image" src="'+this.cat.url+'"><br>'+this.cat.countClicks + ' clicks';
+			this.box.html(this.Html);
 			//if click in the image, increment 1 to count variable, and render new information
 			$("img.cat-image")[0].addEventListener("click", function(){
-				cats[currentCat].countClicks++;
+				view_cat.cat.countClicks++;
 				view_cat.render();
 			});
 		}
