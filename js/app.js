@@ -52,6 +52,7 @@ $(function(){
 	var view_list = {
 		init: function(){
 			this.catlist = $(".cat-list");
+			view_cat.init(controller.get_cats()[0]);
 			view_list.render();
 			
 		},
@@ -78,8 +79,9 @@ $(function(){
 	var view_cat = {
 		init: function(cat){
 			this.box = $(".cat-container");
-			this.cat = cat
-			view_cat.render()
+			this.cat = cat;
+			view_cat.render();
+			view_form.init(controller.get_cats()[0]);
 			
 		},
 		render: function(){
@@ -96,7 +98,32 @@ $(function(){
 		}
 	};
 
+	var view_form = {
+		init: function(cat){
+			this.adminButton = $(".admin-button");
+			this.formDiv = $(".form-container");
+			this.HtmlForm = "";
+			this.cat = cat;
+			view_form.render(cat);
+		},
+
+		render: function(cat){
+			this.cat = cat;
+			//Render Form
+			this.adminButton[0].addEventListener("click", function(){
+				this.HtmlForm += '<form class="form-data">Name: <input type="text" name="name" value ="'+view_form.cat.name+'">'+
+				'Clicks: <input type="text" name="countClicks" value="'+view_form.cat.countClicks+'"></form>';
+				view_form.formDiv.html(this.HtmlForm);
+			});
+		}
+	};
+
+
 	controller.init();
 });
 
+
+function newFunction(view_form) {
+	view_form.render();
+}
 
