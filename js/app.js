@@ -86,7 +86,7 @@ $(function(){
 		},
 		render: function(){
 			//add to div.cat-container the image, name and count of clicks, for this cats
-			this.Html = '';
+			this.Html = "";
 			this.Html += '<span class="name">' + this.cat.name + 
 			'</span>'+'<img class="cat-image" src="'+this.cat.url+'"><br>'+this.cat.countClicks + ' clicks';
 			this.box.html(this.Html);
@@ -101,6 +101,7 @@ $(function(){
 	var view_form = {
 		init: function(cat){
 			this.adminButton = $(".admin-button");
+			this.divButton = $(".button-container");
 			this.formDiv = $(".form-container");
 			this.HtmlForm = "";
 			this.cat = cat;
@@ -111,9 +112,10 @@ $(function(){
 			this.cat = cat;
 			//Render Form
 			this.adminButton[0].addEventListener("click", function(){
-				this.HtmlForm += '<form class="form-data">Name: <input type="text" name="name" value ="'+view_form.cat.name+'">'+
+				this.HtmlForm = '<form class="form-data">Name: <input type="text" name="name" value ="'+view_form.cat.name+'">'+
 				'Clicks: <input type="text" name="countClicks" value="'+view_form.cat.countClicks+'"></form>';
 				view_form.formDiv.html(this.HtmlForm);
+				view_form.divButton.html('<button class="admin-button" type="button" disabled>Admin</button>');
 			});
 		}
 	};
