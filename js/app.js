@@ -78,6 +78,7 @@ $(function(){
 				this.list[i].addEventListener("click", (function(id){
 					return function(){
 					view_cat.init(controller.get_cats()[id]);
+					view_form.reset();
 					}
 				})(i));
 			};
@@ -128,24 +129,30 @@ $(function(){
 				this.HtmlForm = '<form class="form-data">Name: <input type="text" name="name" value ="'+view_form.cat.name+'"><br>'+
 				'ImgUrl: <input type="text" name="url" value="'+view_form.cat.url+'"><br>'+
 				'Clicks: <input type="text" name="countClicks" value="'+view_form.cat.countClicks+'"><br>'+
-				'</form><button class="send" type="button">Enviar</button>';
+				'</form><button class="cancel" type="button">Cancel</button><button class="send" type="button">Send</button>';
 				view_form.formDiv.html(this.HtmlForm);
 				view_form.divButton.html('<button class="admin-button" type="button" disabled>Admin</button>');
 				this.sendButton = $(".send");
+				this.cancelButton = $(".cancel");
 				this.sendButton[0].addEventListener("click", function(){
 					$("input").each(function(index, element){
 						controller.modify_cat(view_form.cat, element.name, element.value)
-						// view_form.cat[element.name] = element.value;
 					});
-					view_form.formDiv.html('');
-					view_form.divButton.html('<button class="admin-button" type="button">Admin</button>');
+					view_form.reset();
 					view_list.updateList(view_form.cat, controller.get_cat_id(view_form.cat))
-					view_cat.init(view_form.cat);
-					
 				});
+				this.cancelButton[0].addEventListener("click", function(){
+					view_form.reset();
+				})
 
 				
 			});
+		},
+
+		reset: function(){
+			view_form.formDiv.html('');
+			view_form.divButton.html('<button class="admin-button" type="button">Admin</button>');
+			view_cat.init(view_form.cat);
 		}
 	};
 
