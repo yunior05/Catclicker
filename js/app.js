@@ -50,6 +50,10 @@ $(function(){
 
 		get_cat_id: function(cat){
 			return this.get_cats().findIndex(x => x.name === cat.name)
+		},
+
+		modify_cat: function(cat, prop, new_value){
+			cat[prop]= new_value;
 		}
 	};
 
@@ -130,7 +134,8 @@ $(function(){
 				this.sendButton = $(".send");
 				this.sendButton[0].addEventListener("click", function(){
 					$("input").each(function(index, element){
-						view_form.cat[element.name] = element.value;
+						controller.modify_cat(view_form.cat, element.name, element.value)
+						// view_form.cat[element.name] = element.value;
 					});
 					view_form.formDiv.html('');
 					view_form.divButton.html('<button class="admin-button" type="button">Admin</button>');
