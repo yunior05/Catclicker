@@ -46,13 +46,17 @@ $(function(){
 		//call model to return all cats array
 		get_cats: function(){
 			return model.get_all_cats();
+		},
+
+		get_cat_id: function(cat){
+			return this.get_cats().findIndex(x => x.name === cat.name)
 		}
 	};
 
 	var view_list = {
-		init: function(){
+		init: function(cat = controller.get_cats()[0]){
 			this.catlist = $(".cat-list");
-			view_cat.init(controller.get_cats()[0]);
+			view_cat.init(cat);
 			view_list.render();
 			
 		},
@@ -61,7 +65,7 @@ $(function(){
 			//Add to ul. cat-list all li elment 
 			this.Html = '';
 			controller.get_cats().forEach(function(cat){
-				this.Html += '<li class="cat"><a href="#">' + cat.name + '</a></li>';
+				this.Html += '<li class="cat"><a href="#" class="cat-link">' + cat.name + '</a></li>';
 				view_list.catlist.html(this.Html);
 			})
 			this.list = $(".cat");
@@ -73,6 +77,11 @@ $(function(){
 					}
 				})(i));
 			};
+		},
+
+		updateList: function(cat, i) {
+			this.aElement = $(".cat-link");
+			this.aElement[i].innerHTML = cat.name;
 		}
 	};
 
@@ -81,12 +90,12 @@ $(function(){
 			this.box = $(".cat-container");
 			this.cat = cat;
 			view_cat.render();
-			view_form.init(controller.get_cats()[0]);
+			view_form.init(this.cat);
 			
 		},
 		render: function(){
 			//add to div.cat-container the image, name and count of clicks, for this cats
-			this.Html = "";
+			this.Html = '';
 			this.Html += '<span class="name">' + this.cat.name + 
 			'</span>'+'<img class="cat-image" src="'+this.cat.url+'"><br>'+this.cat.countClicks + ' clicks';
 			this.box.html(this.Html);
@@ -112,10 +121,25 @@ $(function(){
 			this.cat = cat;
 			//Render Form
 			this.adminButton[0].addEventListener("click", function(){
-				this.HtmlForm = '<form class="form-data">Name: <input type="text" name="name" value ="'+view_form.cat.name+'">'+
-				'Clicks: <input type="text" name="countClicks" value="'+view_form.cat.countClicks+'"></form>';
+				this.HtmlForm = '<form class="form-data">Name: <input type="text" name="name" value ="'+view_form.cat.name+'"><br>'+
+				'ImgUrl: <input type="text" name="url" value="'+view_form.cat.url+'"><br>'+
+				'Clicks: <input type="text" name="countClicks" value="'+view_form.cat.countClicks+'"><br>'+
+				'</form><button class="send" type="button">Enviar</button>';
 				view_form.formDiv.html(this.HtmlForm);
 				view_form.divButton.html('<button class="admin-button" type="button" disabled>Admin</button>');
+				this.sendButton = $(".send");
+				this.sendButton[0].addEventListener("click", function(){
+					$("input").each(function(index, element){
+						view_form.cat[element.name] = element.value;
+					});
+					view_form.formDiv.html('');
+					view_form.divButton.html('<button class="admin-button" type="button">Admin</button>');
+					view_list.updateList(view_form.cat, controller.get_cat_id(view_form.cat))
+					view_cat.init(view_form.cat);
+					
+				});
+
+				
 			});
 		}
 	};
