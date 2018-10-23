@@ -67,11 +67,12 @@ $(function(){
 
 		render: function(){
 			//Add to ul. cat-list all li elment 
-			this.Html = '';
+			"use strict";
+			var Html = '';
 			controller.get_cats().forEach(function(cat){
-				this.Html += '<li class="cat"><a href="#" class="cat-link">' + cat.name + '</a></li>';
-				view_list.catlist.html(this.Html);
-			})
+				Html += '<li class="cat"><a href="#" class="cat-link">' + cat.name + '</a></li>';
+				view_list.catlist.html(Html)
+			});
 			this.list = $(".cat");
 			//When click in li element, call view_cat
 			for (var i = 0; i <= this.list.length; i++) {
@@ -100,10 +101,10 @@ $(function(){
 		},
 		render: function(){
 			//add to div.cat-container the image, name and count of clicks, for this cats
-			this.Html = '';
-			this.Html += '<span class="name">' + this.cat.name + 
+			var Html = '';
+			Html += '<span class="name">' + this.cat.name + 
 			'</span>'+'<img class="cat-image" src="'+this.cat.url+'"><br>'+this.cat.countClicks + ' clicks';
-			this.box.html(this.Html);
+			this.box.html(Html);
 			//if click in the image, increment 1 to count variable, and render new information
 			$("img.cat-image")[0].addEventListener("click", function(){
 				view_cat.cat.countClicks++;
